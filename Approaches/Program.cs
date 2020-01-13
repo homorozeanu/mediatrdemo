@@ -1,10 +1,12 @@
-﻿using Approaches.Handlers;
-using Approaches.Messages;
-using MediatR;
+﻿using MediatR;
 using StructureMap;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using Domain.Handlers;
+using Domain.API.Queries;
+using Domain.API.Repositories;
+using DAL.Repositories;
 
 namespace Approaches
 {
@@ -14,7 +16,7 @@ namespace Approaches
 		{
 			var mediator = GetMediator();
 
-			var query = new GetCustomerQuery(Guid.NewGuid());
+			var query = new GetCustomerQuery(Guid.Parse("0f8fad5b-d9cb-469f-a165-70867728950e"));
 			var customer = await mediator.Send(query);
 
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
@@ -25,6 +27,8 @@ namespace Approaches
 		{
 			var container = new Container(cfg =>
 			{
+				cfg.For<ICustomerRepository>().Use<CustomerRepository>();
+
 				cfg.Scan(scanner =>
 				{
 					scanner.AssemblyContainingType<GetCustomerQueryHandler>();

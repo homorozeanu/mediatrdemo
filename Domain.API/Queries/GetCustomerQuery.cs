@@ -1,10 +1,9 @@
-﻿using Approaches.Responses;
-using MediatR;
+﻿using MediatR;
 using System;
 
-namespace Approaches.Messages
+namespace Domain.API.Queries
 {
-	public class GetCustomerQuery : IRequest<CustomerResponse>
+	public class GetCustomerQuery : IRequest<Customer>
     {
 		public GetCustomerQuery(Guid customerId)
 		{

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Approaches.Responses
+namespace Domain.API
 {
-	public class CustomerResponse
+	public class Customer
     {
 		public Guid Id { get; set; }
 		public string FullName { get; set; }
