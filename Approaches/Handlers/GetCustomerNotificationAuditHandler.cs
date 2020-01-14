@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Approaches.Queries;
@@ -12,6 +13,10 @@ namespace Approaches.Handlers
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(1000), cancellationToken);
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Audit search for customer request '{notification.CustomerId}'");
+			if (notification.CustomerId == Guid.Empty)
+			{
+				throw new DataException("Audit database not found!");
+			}
 		}
 	}
 }

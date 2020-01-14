@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using System.Threading;
 using Approaches.Queries;
+using Approaches.Responses;
 
 namespace Approaches
 {
@@ -12,19 +13,38 @@ namespace Approaches
 	{
 		static async Task MainAsync()
 		{
+
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] On MainAsync");
 
 			var mediator = GetMediator();
 
-			var query = new GetCustomerQuery(Guid.NewGuid());
-			var customer = await mediator.Send(query);
+			var query = new GetCustomerQuery(Guid.Empty);
+			CustomerResponse customer = null;
+			try
+			{
+				customer = await mediator.Send(query);
+			}
+			catch (InvalidOperationException ex)
+			{
+				Console.WriteLine($"An error occurred on send: {ex.Message}");
+			}
 
-			// The default implementation of Publish loops through
-			// the notification handlers and awaits each one.
-			// This ensures each handler is run after one another.
-			await mediator.Publish(query);
+			Console.WriteLine(customer is null
+				? $"[{Thread.CurrentThread.ManagedThreadId}] Customer not found"
+				: $"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer?.FullName}'");
 
-			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
+			try
+			{
+				// The default implementation of Publish loops through
+				// the notification handlers and awaits each one.
+				// This ensures each handler is run after one another.
+				await mediator.Publish(query);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred on publish: {ex.Message}");
+			}
+
 			Console.ReadLine();
 		}
 

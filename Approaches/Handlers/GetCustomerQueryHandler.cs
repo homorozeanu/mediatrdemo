@@ -14,6 +14,11 @@ namespace Approaches.Handlers
 			await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Searching for customer '{request.CustomerId}'");
 
+			if (request.CustomerId == Guid.Empty)
+			{
+				throw new InvalidOperationException("Searching with an empty customer id is not allowed!");
+			}
+
 			var customerResponse = new CustomerResponse
 			{
 				Id = request.CustomerId,
