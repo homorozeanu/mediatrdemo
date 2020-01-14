@@ -1,10 +1,10 @@
-﻿using Approaches.Responses;
+﻿using System;
+using Approaches.Responses;
 using MediatR;
-using System;
 
-namespace Approaches.Messages
+namespace Approaches.Queries
 {
-	public class GetCustomerQuery : IRequest<CustomerResponse>
+	public class GetCustomerQuery : IRequest<CustomerResponse>, INotification
     {
 		public GetCustomerQuery(Guid customerId)
 		{

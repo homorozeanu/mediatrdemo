@@ -1,10 +1,10 @@
 ﻿using Approaches.Handlers;
-using Approaches.Messages;
 using MediatR;
 using StructureMap;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using Approaches.Queries;
 
 namespace Approaches
 {
@@ -18,6 +18,11 @@ namespace Approaches
 
 			var query = new GetCustomerQuery(Guid.NewGuid());
 			var customer = await mediator.Send(query);
+
+			// The default implementation of Publish loops through
+			// the notification handlers and awaits each one.
+			// This ensures each handler is run after one another.
+			await mediator.Publish(query);
 
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
 			Console.ReadLine();

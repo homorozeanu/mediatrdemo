@@ -1,9 +1,9 @@
-﻿using Approaches.Messages;
-using Approaches.Responses;
+﻿using Approaches.Responses;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Approaches.Queries;
 
 namespace Approaches.Handlers
 {
