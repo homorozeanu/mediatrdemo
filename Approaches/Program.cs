@@ -1,10 +1,10 @@
 ﻿using Approaches.Handlers;
-using Approaches.Messages;
 using MediatR;
 using StructureMap;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using Approaches.Queries;
 
 namespace Approaches
 {
@@ -19,7 +19,7 @@ namespace Approaches
 			var query = new GetCustomerQuery(Guid.NewGuid());
 			var customer = await mediator.Send(query);
 
-			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Back on main");
 			Console.ReadLine();
 		}
 
