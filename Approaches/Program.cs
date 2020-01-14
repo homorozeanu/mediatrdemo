@@ -12,6 +12,8 @@ namespace Approaches
 	{
 		static async Task MainAsync()
 		{
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] On MainAsync");
+
 			var mediator = GetMediator();
 
 			var query = new GetCustomerQuery(Guid.NewGuid());
@@ -41,6 +43,7 @@ namespace Approaches
 
 		static void Main(string[] args)
 		{
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] On Main");
 			MainAsync().GetAwaiter().GetResult();
 		}
 	}

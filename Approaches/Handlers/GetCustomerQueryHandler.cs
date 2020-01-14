@@ -11,8 +11,8 @@ namespace Approaches.Handlers
 	{
 		public async Task<CustomerResponse> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
 		{
+			await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Searching for customer '{request.CustomerId}'");
-			//await Task.Delay(TimeSpan.FromSeconds(2));
 
 			var customerResponse = new CustomerResponse
 			{
