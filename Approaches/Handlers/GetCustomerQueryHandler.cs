@@ -3,15 +3,14 @@ using Approaches.Responses;
 using MediatR;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Approaches.Handlers
 {
-	public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, CustomerResponse>
+	public class GetCustomerQueryHandler : RequestHandler<GetCustomerQuery, CustomerResponse>
 	{
-		public async Task<CustomerResponse> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
+		protected override CustomerResponse Handle(GetCustomerQuery request)
 		{
-			await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
+			Thread.Sleep(500);
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Searching for customer '{request.CustomerId}'");
 
 			var customerResponse = new CustomerResponse
@@ -20,7 +19,7 @@ namespace Approaches.Handlers
 				FullName = "Friendly customer"
 			};
 
-			return await Task.FromResult(customerResponse);
+			return customerResponse;
 		}
 	}
 }
