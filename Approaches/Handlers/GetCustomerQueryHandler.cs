@@ -12,11 +12,11 @@ namespace Approaches.Handlers
 		public async Task<CustomerResponse> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
-			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Searching for customer '{request.CustomerId}'");
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] [Req/Res Handler] Searching for customer '{request.CustomerId}'");
 
 			if (request.CustomerId == Guid.Empty)
 			{
-				throw new InvalidOperationException("Searching with an empty customer id is not allowed!");
+				throw new InvalidOperationException("[Req/Res Handler] Searching with an empty customer id is not allowed!");
 			}
 
 			var customerResponse = new CustomerResponse

@@ -12,10 +12,10 @@ namespace Approaches.Handlers
 		public async Task Handle(GetCustomerQuery notification, CancellationToken cancellationToken)
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(1000), cancellationToken);
-			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Audit search for customer request '{notification.CustomerId}'");
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] [Audit Handler] Audit search for customer request '{notification.CustomerId}'");
 			if (notification.CustomerId == Guid.Empty)
 			{
-				throw new DataException("Audit database not found!");
+				throw new DataException("[Audit Handler] Audit database not found!");
 			}
 		}
 	}
