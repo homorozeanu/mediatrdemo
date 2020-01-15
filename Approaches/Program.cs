@@ -14,23 +14,32 @@ namespace Approaches
 		{
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] On MainAsync");
 
+			BuildMediator();
 			var mediator = GetMediator();
 
 			var query = new GetCustomerQuery(Guid.NewGuid());
+			
 			var customer = await mediator.Send(query);
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
+			
+			customer = await mediator.Send(query);
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
+
+			mediator = GetMediator();
+			customer = await mediator.Send(query);
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
 
 			// The default implementation of Publish loops through
 			// the notification handlers and awaits each one.
 			// This ensures each handler is run after one another.
 			await mediator.Publish(query);
 
-			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Found customer '{customer.FullName}'");
 			Console.ReadLine();
 		}
 
-		private static IMediator GetMediator()
+		private static void BuildMediator()
 		{
-			var container = new Container(cfg =>
+			Container = new Container(cfg =>
 			{
 				cfg.Scan(scanner =>
 				{
@@ -42,8 +51,11 @@ namespace Approaches
 				cfg.For<ServiceFactory>().Use<ServiceFactory>(ctx => ctx.GetInstance);
 				cfg.For<IMediator>().Use<Mediator>();
 			});
+		}
 
-			return container.GetInstance<IMediator>();
+		private static IMediator GetMediator()
+		{
+			return Container.GetInstance<IMediator>();
 		}
 
 		static void Main(string[] args)
@@ -51,5 +63,7 @@ namespace Approaches
 			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] On Main");
 			MainAsync().GetAwaiter().GetResult();
 		}
+
+		private static Container Container { get; set; }
 	}
 }

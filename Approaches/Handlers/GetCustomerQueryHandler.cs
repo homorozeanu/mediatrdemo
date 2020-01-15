@@ -9,10 +9,13 @@ namespace Approaches.Handlers
 {
 	public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, CustomerResponse>
 	{
+		private int counter = 0;
+
 		public async Task<CustomerResponse> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
 		{
+			counter++;
 			await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
-			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Searching for customer '{request.CustomerId}'");
+			Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Searching for customer '{request.CustomerId}' [{counter} time(s)]");
 
 			var customerResponse = new CustomerResponse
 			{
