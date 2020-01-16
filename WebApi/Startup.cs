@@ -1,11 +1,18 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using System.Text;
+using System.Text.Json;
+using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.Auditing;
+using WebApi.PiepelineBehaviors;
 using WebApi.Repositories;
 
 namespace WebApi
@@ -28,6 +35,10 @@ namespace WebApi
 
 			services.AddSingleton<ICustomerRepository, CustomerRepository>();
 			services.AddSingleton<IAudit, Audit>();
+
+			services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+			// registers each implementation of IValidator
+			services.AddValidatorsFromAssembly(typeof(Startup).Assembly);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,8 +54,40 @@ namespace WebApi
 				app.UseHsts();
 			}
 
+			app.UseFluentValidationExceptionHandler();
+
 			app.UseHttpsRedirection();
 			app.UseMvc();
+		}
+	}
+
+	public static class ApplicationBuilderExtensions
+	{
+		public static void UseFluentValidationExceptionHandler(this IApplicationBuilder app)
+		{
+			app.UseExceptionHandler(x =>
+			{
+				x.Run(async context =>
+				{
+					var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
+					var exception = errorFeature.Error;
+
+					if (!(exception is ValidationException validationException))
+					{
+						throw exception;
+					}
+
+					var errors = validationException.Errors.Select(err => new
+					{
+						err.PropertyName,
+						err.ErrorMessage
+					});
+					var errorText = JsonSerializer.Serialize(errors);
+					context.Response.StatusCode = 400;
+					context.Response.ContentType = "application/json";
+					await context.Response.WriteAsync(errorText, Encoding.UTF8);
+				});
+			});
 		}
 	}
 }
