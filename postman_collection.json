@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "a2581da9-4258-43b7-951d-831bff219b0b",
+		"name": "MediatR WebApi Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET v1/customer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44389/api/v1/customer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44389",
+					"path": [
+						"api",
+						"v1",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET v1/customer/customerId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44389/api/v1/customer/e5920b28-9554-41de-a8a6-6764037a1dcc",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44389",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"e5920b28-9554-41de-a8a6-6764037a1dcc"
+					]
+				},
+				"description": "GET v1/customer/customerId"
+			},
+			"response": []
+		},
+		{
+			"name": "POST v1/customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"FullName\":\"Customer D\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44389/api/v1/customer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44389",
+					"path": [
+						"api",
+						"v1",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET v2/customer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44389/api/v2/customer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44389",
+					"path": [
+						"api",
+						"v2",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET v2/customer/customerId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44389/api/v2/customer/e5920b28-9554-41de-a8a6-6764037a1dcc",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44389",
+					"path": [
+						"api",
+						"v2",
+						"customer",
+						"e5920b28-9554-41de-a8a6-6764037a1dcc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST v2/customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"FullName\":\"Customer D\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44389/api/v2/customer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44389",
+					"path": [
+						"api",
+						"v2",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST v2/customer faulty",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"FullName\":\"\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44389/api/v2/customer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44389",
+					"path": [
+						"api",
+						"v2",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
